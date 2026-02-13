@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,31 +16,31 @@ body{
     font-family:'Poppins',sans-serif;
 }
 
-/* Floating hearts */
+/* Floating hearts (smaller now) */
 .heart{
     position:absolute;
     bottom:-20px;
-    width:14px;
-    height:14px;
+    width:8px;              /* smaller */
+    height:8px;
     background:#ff4d6d;
     transform:rotate(45deg);
     animation:floatUp linear infinite;
     pointer-events:none;
-    opacity:0.8;
+    opacity:0.7;
 }
 
 .heart:before,
 .heart:after{
     content:'';
     position:absolute;
-    width:14px;
-    height:14px;
+    width:8px;
+    height:8px;
     background:#ff4d6d;
     border-radius:50%;
 }
 
-.heart:before{top:-7px;left:0;}
-.heart:after{left:-7px;top:0;}
+.heart:before{top:-4px;left:0;}
+.heart:after{left:-4px;top:0;}
 
 @keyframes floatUp{
     0%{transform:translateY(0) rotate(45deg);opacity:0;}
@@ -51,29 +48,34 @@ body{
     100%{transform:translateY(-110vh) rotate(45deg);opacity:0;}
 }
 
-/* Heart grid */
+/* Main container */
+.mainContainer{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Bigger photo heart */
 #heartWrapper{
-    position:absolute;
-    top:45%;
-    left:50%;
-    transform:translate(-50%,-50%);
     display:grid;
     grid-template-columns:repeat(6,1fr);
-    gap:6px;
+    gap:8px;                 /* slightly more spacing */
     animation:pulse 2.5s infinite;
 }
 
 @keyframes pulse{
-    0%{transform:translate(-50%,-50%) scale(1);}
-    50%{transform:translate(-50%,-50%) scale(1.05);}
-    100%{transform:translate(-50%,-50%) scale(1);}
+    0%{transform:scale(1);}
+    50%{transform:scale(1.07);}
+    100%{transform:scale(1);}
 }
 
 .heart-piece{
-    width:65px;
-    height:65px;
+    width:80px;              /* bigger photos */
+    height:80px;
     object-fit:cover;
-    border-radius:12px;
+    border-radius:14px;
     opacity:0;
     transform:scale(0.5);
     transition:all 0.8s ease;
@@ -84,33 +86,32 @@ body{
     transform:scale(1);
 }
 
+/* Valentine text */
 #valentineText{
-    position:absolute;
-    bottom:20%;   /* controls how low it sits */
-    left:50%;
-    transform:translateX(-50%);
+    margin-top:50px;
     font-family:'Playfair Display',serif;
     font-size:2rem;
     color:white;
     text-align:center;
     opacity:0;
+    transform:translateY(20px);
     transition:opacity 1.5s ease, transform 1.5s ease;
 }
 
-
 #valentineText.show{
     opacity:1;
-    transform:translate(-50%,-10px);
+    transform:translateY(0);
 }
 
 /* Responsive */
 @media(max-width:600px){
     .heart-piece{
-        width:45px;
-        height:45px;
+        width:55px;
+        height:55px;
     }
     #valentineText{
         font-size:1.5rem;
+        margin-top:35px;
     }
 }
 </style>
@@ -118,8 +119,10 @@ body{
 
 <body>
 
-<div id="heartWrapper"></div>
-<div id="valentineText">Happy Valentine’s Day, My Love 💖</div>
+<div class="mainContainer">
+    <div id="heartWrapper"></div>
+    <div id="valentineText">Happy Valentine’s Day, My Love 💖</div>
+</div>
 
 <script>
 
@@ -132,9 +135,9 @@ function createHeart(){
     document.body.appendChild(heart);
     setTimeout(()=>heart.remove(),10000);
 }
-setInterval(createHeart,1200);
+setInterval(createHeart,1400);
 
-/* Heart shape */
+/* Heart shape layout */
 const heartShape=[
   1,1,0,0,1,1,
   1,1,1,1,1,1,
@@ -143,11 +146,17 @@ const heartShape=[
   0,0,1,1,0,0
 ];
 
+/* ⚠ IMPORTANT:
+   You must have AT LEAST 16 photos (number of 1s in heartShape)
+   Rename your images like:
+   photo1.jpg to photo16.jpg
+*/
+
 const photos=[
-"photo1.jpeg","photo2.jpg","photo3.jpg",
-"photo4.jpg","photo5.jpg","photo6.jpg",
-"photo7.jpg","photo8.jpg","photo9.jpg",
-"photo10.jpg","photo11.jpg","photo12.jpg"
+"photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg",
+"photo5.jpg","photo6.jpg","photo7.jpg","photo8.jpg",
+"photo9.jpg","photo10.jpg","photo11.jpg","photo12.jpg",
+"photo13.jpg","photo14.jpg","photo15.jpg","photo16.jpg"
 ];
 
 const wrapper=document.getElementById("heartWrapper");
@@ -156,15 +165,18 @@ let lastIndex = heartShape.lastIndexOf(1);
 
 heartShape.forEach((cell,index)=>{
     if(cell===1){
+
+        // Stop if no more unique photos
+        if(photoIndex >= photos.length) return;
+
         let img=document.createElement("img");
-        img.src=photos[photoIndex % photos.length];
+        img.src=photos[photoIndex];
         img.classList.add("heart-piece");
         wrapper.appendChild(img);
 
         setTimeout(()=>{
             img.classList.add("show");
 
-            // When last piece appears, show text
             if(index===lastIndex){
                 setTimeout(()=>{
                     document.getElementById("valentineText").classList.add("show");
