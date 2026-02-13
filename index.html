@@ -222,7 +222,8 @@ heartShape.forEach((cell,index)=>{
 body{
     height:100vh;
     overflow:hidden;
-    background:linear-gradient(135deg,#575254,#070707,#161214);
+    /* background:linear-gradient(135deg,#575254,#070707,#161214); */
+    background:linear-gradient(135deg,#ffd6e8,#ffc2dd,#ffe6f2);
     font-family:'Poppins',sans-serif;
 }
 
@@ -606,7 +607,6 @@ popupImage.src="yes1.webp";
 typeWriter("You said YES!!! 💕✨");
 
 launchConfetti();
-    launchPopupConfetti();  // 🎉 responsive popup confetti
 
 setTimeout(()=>{
 popupImage.src="yes2.webp";
@@ -622,30 +622,7 @@ canvas.height=window.innerHeight;
 
 let confetti=[];
 
-    function launchPopupConfetti(){
 
-    const canvas = document.getElementById("popupConfetti");
-    const ctx = canvas.getContext("2d");
-
-    function resizeCanvas(){
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-    }
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-
-    let pieces = [];
-
-    for(let i=0;i<120;i++){
-        pieces.push({
-            x:Math.random()*canvas.width,
-            y:Math.random()*-canvas.height,
-            size:4+Math.random()*4,
-            speed:2+Math.random()*3,
-            color:"hsl("+Math.random()*360+",100%,50%)"
-        });
-    }
 
     function animate(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
