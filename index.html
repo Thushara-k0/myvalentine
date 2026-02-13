@@ -349,6 +349,108 @@ position:fixed;
 top:0;left:0;
 pointer-events:none;
 }
+
+    /* ============================= */
+/* RESPONSIVE DESIGN */
+/* ============================= */
+
+@media (max-width: 1024px){
+    #heartWrapper{
+        grid-template-columns: repeat(6, 1fr);
+        gap:5px;
+    }
+
+    .heart-piece{
+        width:55px;
+        height:55px;
+    }
+}
+
+@media (max-width: 768px){
+
+ .heart-piece{
+        width:45px;
+        height:45px;
+    }
+
+    #valentineText{
+        font-size:1.5rem;
+        top:72%;   /* move text higher on phone */
+    }
+
+    /* Smaller floating hearts on phone */
+    .heart{
+        width:8px;
+        height:8px;
+    }
+
+    .heart:before,
+    .heart:after{
+        width:8px;
+        height:8px;
+    }
+
+    .heart:before{ top:-4px; }
+    .heart:after{ left:-4px; }
+}
+
+    #clickHeart{
+        font-size:1.1rem;
+        top:84%;
+        text-align:center;
+        width:90%;
+    }
+
+    .popup{
+        width:95%;
+        padding:20px;
+    }
+}
+
+@media (max-width: 480px){
+
+     .heart-piece{
+        width:45px;
+        height:45px;
+    }
+
+    #valentineText{
+        font-size:1.5rem;
+        top:72%;   /* move text higher on phone */
+    }
+
+    /* Smaller floating hearts on phone */
+    .heart{
+        width:8px;
+        height:8px;
+    }
+
+    .heart:before,
+    .heart:after{
+        width:8px;
+        height:8px;
+    }
+
+    .heart:before{ top:-4px; }
+    .heart:after{ left:-4px; }
+}
+
+    #clickHeart{
+        font-size:1rem;
+        top:82%;
+    }
+
+    .popup{
+        padding:18px;
+        border-radius:15px;
+    }
+
+    button{
+        padding:6px 14px;
+        font-size:0.9rem;
+    }
+}
+
 </style>
 </head>
 
