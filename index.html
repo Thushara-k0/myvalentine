@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -201,5 +201,312 @@ heartShape.forEach((cell,index)=>{
 
 </script>
 
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:linear-gradient(135deg,#575254,#070707,#161214);
+    font-family:'Poppins',sans-serif;
+}
+
+/* Floating hearts */
+.heart{
+    position:absolute;
+    bottom:-20px;
+    width:14px;height:14px;
+    background:#ff4d6d;
+    transform:rotate(45deg);
+    animation:floatUp linear infinite;
+}
+.heart:before,.heart:after{
+    content:'';
+    position:absolute;
+    width:14px;height:14px;
+    background:#ff4d6d;
+    border-radius:50%;
+}
+.heart:before{top:-7px;}
+.heart:after{left:-7px;}
+
+@keyframes floatUp{
+0%{transform:translateY(0) rotate(45deg);opacity:0;}
+10%{opacity:1;}
+100%{transform:translateY(-110vh) rotate(45deg);opacity:0;}
+}
+
+/* Heart Grid */
+#heartWrapper{
+position:absolute;
+top:45%;left:50%;
+transform:translate(-50%,-50%);
+display:grid;
+grid-template-columns:repeat(6,1fr);
+gap:6px;
+}
+
+.heart-piece{
+width:65px;height:65px;
+object-fit:cover;
+border-radius:12px;
+opacity:0;
+transform:scale(0.5);
+transition:0.8s;
+}
+.heart-piece.show{
+opacity:1;
+transform:scale(1);
+}
+
+/* Text */
+#valentineText{
+position:absolute;
+top:80%;left:50%;
+transform:translateX(-50%);
+font-family:'Playfair Display',serif;
+font-size:2rem;
+color:white;
+opacity:0;
+transition:1.5s;
+}
+#valentineText.show{opacity:1;}
+
+#clickHeart{
+position:absolute;
+top:88%;left:50%;
+transform:translateX(-50%);
+font-size:1.3rem;
+color:#ff4d6d;
+cursor:pointer;
+opacity:0;
+transition:1s;
+}
+#clickHeart.show{opacity:1;}
+
+/* Popup */
+#lovePopup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+visibility:hidden;
+opacity:0;
+transition:0.5s;
+}
+#lovePopup.active{
+visibility:visible;
+opacity:1;
+}
+
+.popup{
+background:white;
+padding:25px;
+border-radius:20px;
+text-align:center;
+width:90%;
+max-width:360px;
+position:relative;
+}
+
+.popup img{
+width:100%;
+border-radius:15px;
+margin-bottom:10px;
+}
+
+button{
+padding:8px 18px;
+border:none;
+border-radius:20px;
+margin:5px;
+cursor:pointer;
+}
+
+#yesBtn{background:#ff4d6d;color:white;}
+#noBtn{background:#333;color:white;position:relative;}
+
+/* Confetti canvas */
+canvas{
+position:fixed;
+top:0;left:0;
+pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<div id="heartWrapper"></div>
+<div id="valentineText">Happy Valentine’s Day, My Love 💖</div>
+<div id="clickHeart">❤️ Click My Heart ❤️</div>
+
+<div id="lovePopup">
+    <div class="popup">
+        <img id="popupImage" src="proposal.webp">
+        <h2>Will You Be Mine Forever? 💍</h2>
+        <p id="typeText"></p>
+        <button id="yesBtn">YES 💕</button>
+        <button id="noBtn">NO 😏</button>
+    </div>
+</div>
+
+<script>
+
+/* Floating hearts */
+function createHeart(){
+const heart=document.createElement("div");
+heart.classList.add("heart");
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(6+Math.random()*5)+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),10000);
+}
+setInterval(createHeart,1200);
+
+/* Heart shape */
+const heartShape=[
+1,1,0,0,1,1,
+1,1,1,1,1,1,
+1,1,1,1,1,1,
+0,1,1,1,1,0,
+0,0,1,1,0,0
+];
+
+const photos=[
+"photo1.jpeg","photo2.jpeg","photo3.jpeg",
+"photo4.jpeg","photo5.jpeg","photo6.jpeg",
+"photo7.jpeg","photo8.jpeg","photo9.jpeg",
+"photo10.jpeg","photo11.jpeg","photo12.jpeg",
+"photo13.jpeg","photo14.jpeg","photo15.jpeg",
+"photo16.jpeg","photo17.jpeg","photo18.jpeg",
+"photo19.jpeg","photo20.jpeg","photo21.jpeg",
+"photo22.jpeg"
+];
+
+const wrapper=document.getElementById("heartWrapper");
+let photoIndex=0;
+let lastIndex=heartShape.lastIndexOf(1);
+
+heartShape.forEach((cell,index)=>{
+if(cell===1){
+let img=document.createElement("img");
+img.src=photos[photoIndex];
+img.classList.add("heart-piece");
+wrapper.appendChild(img);
+setTimeout(()=>{
+img.classList.add("show");
+if(index===lastIndex){
+setTimeout(()=>{
+valentineText.classList.add("show");
+setTimeout(()=>clickHeart.classList.add("show"),1000);
+},800);
+}
+},index*120);
+photoIndex++;
+}else wrapper.appendChild(document.createElement("div"));
+});
+
+/* Popup */
+const popup=document.getElementById("lovePopup");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const text=document.getElementById("typeText");
+const music=document.getElementById("bgMusic");
+const popupImage=document.getElementById("popupImage");
+
+clickHeart.onclick=()=>{
+popup.classList.add("active");
+music.play();
+typeWriter("From the moment I met you, my world became brighter... 💖");
+};
+
+/* Typewriter */
+function typeWriter(message){
+let i=0;
+text.innerHTML="";
+let interval=setInterval(()=>{
+text.innerHTML+=message[i];
+i++;
+if(i>=message.length) clearInterval(interval);
+},40);
+}
+
+/* NO runs away */
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.position="absolute";
+noBtn.style.top=Math.random()*250+"px";
+noBtn.style.left=Math.random()*200+"px";
+});
+
+/* YES */
+yesBtn.onclick=()=>{
+popupImage.src="yes1.webp";
+typeWriter("You said YES!!! 💕✨");
+
+launchConfetti();
+
+setTimeout(()=>{
+popupImage.src="yes2.webp";
+typeWriter("Forever starts now... 💍❤️");
+},5000);
+};
+
+/* REAL MOVING CONFETTI */
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let confetti=[];
+
+function launchConfetti(){
+for(let i=0;i<200;i++){
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height- canvas.height,
+size:5+Math.random()*5,
+speed:2+Math.random()*3,
+color:"hsl("+Math.random()*360+",100%,50%)"
+});
+}
+animateConfetti();
+}
+
+function animateConfetti(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+confetti.forEach((c,i)=>{
+c.y+=c.speed;
+ctx.fillStyle=c.color;
+ctx.fillRect(c.x,c.y,c.size,c.size);
+if(c.y>canvas.height) confetti.splice(i,1);
+});
+if(confetti.length>0) requestAnimationFrame(animateConfetti);
+}
+
+</script>
 </body>
 </html>
