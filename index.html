@@ -222,8 +222,7 @@ heartShape.forEach((cell,index)=>{
 body{
     height:100vh;
     overflow:hidden;
-    /* background:linear-gradient(135deg,#575254,#070707,#161214); */
-    background:linear-gradient(135deg,#ffd6e8,#ffc2dd,#ffe6f2);
+    background:linear-gradient(135deg,#575254,#070707,#161214);
     font-family:'Poppins',sans-serif;
 }
 
@@ -620,31 +619,8 @@ const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
+
 let confetti=[];
-
-
-
-    function animate(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-
-        pieces.forEach((c,i)=>{
-            c.y += c.speed;
-
-            ctx.fillStyle = c.color;
-            ctx.fillRect(c.x, c.y, c.size, c.size);
-
-            if(c.y > canvas.height){
-                c.y = -10;
-                c.x = Math.random()*canvas.width;
-            }
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
 
 function launchConfetti(){
 for(let i=0;i<200;i++){
@@ -658,8 +634,6 @@ color:"hsl("+Math.random()*360+",100%,50%)"
 }
 animateConfetti();
 }
-
-
 
 function animateConfetti(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
