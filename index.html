@@ -327,9 +327,14 @@ position:relative;
 }
 
 .popup img{
-width:100%;
+/* width:100%;
 border-radius:15px;
-margin-bottom:10px;
+margin-bottom:10px; */
+      width:60%;           /* reduce size */
+    height:auto;         /* keep aspect ratio */
+    display:block;       
+    margin:0 auto 10px;  /* center horizontally */
+    border-radius:15px;
 }
 
 button{
@@ -413,6 +418,8 @@ pointer-events:none;
 /* ============================= */
 @media (max-width: 480px){
 
+@media (max-width: 480px){
+
     .heart-piece{
         width:38px;
         height:38px;
@@ -434,6 +441,33 @@ pointer-events:none;
         padding:18px;
         border-radius:15px;
         width:96%;
+        position:relative;   /* important */
+        overflow:hidden;     /* important */
+    }
+
+    .popup img{
+        width:75%;
+        height:auto;
+        display:block;
+        margin:0 auto 12px;
+        border-radius:12px;
+    }
+
+    /* 🎉 CONFETTI FIX */
+    #popupConfetti{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        pointer-events:none;
+        z-index:0;
+    }
+
+    .popup img,
+    .popup p,
+    .popup button{
+        position:relative;
+        z-index:2;
     }
 
     button{
@@ -441,6 +475,8 @@ pointer-events:none;
         font-size:0.9rem;
     }
 }
+
+
 
 </style>
 </head>
@@ -534,7 +570,7 @@ const popupImage=document.getElementById("popupImage");
 clickHeart.onclick=()=>{
 popup.classList.add("active");
 music.play();
-typeWriter("From the moment I met you, my world became brighter... 💖");
+typeWriter("Sorry Shuttu.. Eni oru preshnam indavathe njan sredhika..Ennood kshemikk.. Will you marry me? 💖");
 };
 
 /* Typewriter */
@@ -599,6 +635,13 @@ if(c.y>canvas.height) confetti.splice(i,1);
 });
 if(confetti.length>0) requestAnimationFrame(animateConfetti);
 }
+    function resizePopupCanvas(){
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+
+window.addEventListener("resize", resizePopupCanvas);
+
 
 </script>
 </body>
